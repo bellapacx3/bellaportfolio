@@ -1,12 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowUpRight, Mail, MessageCircle, Send, X } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { developer } from "@/lib/data";
 
 export default function Contact() {
   const [contactMenuOpen, setContactMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!contactMenuOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setContactMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [contactMenuOpen]);
 
   const message =
     "Hi! I found your portfolio and would like to discuss a website or mobile app project.";
@@ -14,8 +31,100 @@ export default function Contact() {
   const whatsappUrl = `https://wa.me/${developer.whatsapp}?text=${encodeURIComponent(message)}`;
 
   // Replace with your actual Telegram username, without @.
-  const telegramUsername = "YOUR_TELEGRAM_USERNAME";
+  const telegramUsername = "bpac12";
   const telegramUrl = `https://t.me/${telegramUsername}`;
+
+  const contactMenu =
+    mounted && contactMenuOpen
+      ? createPortal(
+          <>
+            <button
+              type="button"
+              aria-label="Close contact menu"
+              onClick={() => setContactMenuOpen(false)}
+              className="fixed inset-0 z-[9998] cursor-default bg-black/30 backdrop-blur-[2px]"
+            />
+
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Choose a contact method"
+              className="fixed left-1/2 top-1/2 z-[9999] w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-2xl border p-4 shadow-2xl"
+              style={{
+                background: "var(--surface)",
+                borderColor: "var(--border)",
+                maxHeight: "calc(100dvh - 2rem)",
+                overflowY: "auto",
+              }}
+            >
+              <div className="mb-3 flex items-center justify-between gap-3 px-1 py-1">
+                <div>
+                  <h3 className="text-base font-semibold">Let&apos;s connect</h3>
+                  <p
+                    className="mt-1 text-sm"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Choose your preferred app.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setContactMenuOpen(false)}
+                  className="rounded-lg p-2 transition hover:bg-white/10"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setContactMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-4 text-sm transition hover:bg-[#25D366]/10"
+              >
+                <MessageCircle
+                  size={22}
+                  className="shrink-0 text-[#25D366]"
+                />
+                <span>
+                  <span className="block font-medium">WhatsApp</span>
+                  <span
+                    className="mt-1 block text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Chat with me directly
+                  </span>
+                </span>
+                <ArrowUpRight size={16} className="ml-auto shrink-0" />
+              </a>
+
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setContactMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-4 text-sm transition hover:bg-[#229ED9]/10"
+              >
+                <Send size={22} className="shrink-0 text-[#229ED9]" />
+                <span>
+                  <span className="block font-medium">Telegram</span>
+                  <span
+                    className="mt-1 block text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Message me on Telegram
+                  </span>
+                </span>
+                <ArrowUpRight size={16} className="ml-auto shrink-0" />
+              </a>
+            </div>
+          </>,
+          document.body
+        )
+      : null;
 
   return (
     <section id="contact" className="section-padding section-divider">
@@ -67,7 +176,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="relative">
+            <div>
               <button
                 type="button"
                 onClick={() => setContactMenuOpen((open) => !open)}
@@ -75,97 +184,13 @@ export default function Contact() {
                 aria-haspopup="dialog"
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#52C4B8] px-5 py-3.5 text-sm font-semibold text-[#071411] transition hover:-translate-y-0.5 hover:bg-[#6ad7ca] sm:w-auto"
               >
-                {contactMenuOpen ? <X size={18} /> : <MessageCircle size={18} />}
+                {contactMenuOpen ? (
+                  <X size={18} />
+                ) : (
+                  <MessageCircle size={18} />
+                )}
                 Let&apos;s Talk
               </button>
-
-              {contactMenuOpen && (
-                <>
-                  <button
-                    type="button"
-                    aria-label="Close contact menu"
-                    onClick={() => setContactMenuOpen(false)}
-                    className="fixed inset-0 z-40 cursor-default"
-                  />
-
-                  <div
-                    role="dialog"
-                    aria-label="Choose a contact method"
-                    className="fixed bottom-24 left-1/2 z-50 w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-2xl border p-3 shadow-2xl sm:absolute sm:bottom-full sm:left-auto sm:right-0 sm:mb-3 sm:w-64 sm:max-w-[90vw] sm:translate-x-0"
-                    style={{
-                      background: "var(--surface)",
-                      borderColor: "var(--border)",
-                    }}
-                  >
-                    <div className="mb-2 flex items-center justify-between px-1 py-1">
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          Let&apos;s connect
-                        </h3>
-                        <p
-                          className="mt-1 text-xs"
-                          style={{ color: "var(--muted)" }}
-                        >
-                          Choose your preferred app.
-                        </p>
-                      </div>
-
-                      <button
-                        type="button"
-                        aria-label="Close menu"
-                        onClick={() => setContactMenuOpen(false)}
-                        className="rounded-lg p-1 transition hover:bg-white/10"
-                      >
-                        <X size={17} />
-                      </button>
-                    </div>
-
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setContactMenuOpen(false)}
-                      className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-[#25D366]/10"
-                    >
-                      <MessageCircle
-                        size={20}
-                        className="shrink-0 text-[#25D366]"
-                      />
-                      <span>
-                        <span className="block font-medium">WhatsApp</span>
-                        <span
-                          className="block text-xs"
-                          style={{ color: "var(--muted)" }}
-                        >
-                          Chat with me directly
-                        </span>
-                      </span>
-                    </a>
-
-                    <a
-                      href={telegramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setContactMenuOpen(false)}
-                      className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-[#229ED9]/10"
-                    >
-                      <Send
-                        size={20}
-                        className="shrink-0 text-[#229ED9]"
-                      />
-                      <span>
-                        <span className="block font-medium">Telegram</span>
-                        <span
-                          className="block text-xs"
-                          style={{ color: "var(--muted)" }}
-                        >
-                          Message me on Telegram
-                        </span>
-                      </span>
-                    </a>
-                  </div>
-                </>
-              )}
 
               <p
                 className="mt-3 text-center text-xs sm:text-left"
@@ -177,6 +202,8 @@ export default function Contact() {
           </div>
         </div>
       </div>
+
+      {contactMenu}
     </section>
   );
 }
