@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Full-Stack Developer Portfolio
 
-## Getting Started
+A modern, responsive developer portfolio showcasing my experience in web development, mobile applications, backend engineering, and custom software solutions. Built with Next.js, TypeScript, and Tailwind CSS, the portfolio highlights my technical skills, selected projects, and approach to building user-focused digital products.
 
-First, run the development server:
+## About Me
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+I'm a Software and Website Developer based in Addis Ababa, Ethiopia, with over eight years of experience building websites, web applications, mobile applications, and custom software solutions.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I have a Bachelor's degree in Computer Science from Beijing University of Posts and Telecommunications. My experience covers the full software development lifecycle, from understanding business requirements and designing solutions to development, testing, deployment, and ongoing improvement.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+I'm interested in building reliable, scalable, and practical software that solves real-world problems.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+### Frontend Development
+- JavaScript
+- TypeScript
+- React
+- Next.js
+- HTML5
+- CSS3
+- Tailwind CSS
+- Framer Motion
 
-To learn more about Next.js, take a look at the following resources:
+### Backend Development
+- Python
+- Django
+- Go
+- REST API development
+- Database integration
+- Application architecture
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Mobile Development
+- Kotlin
+- Java
+- Mobile application development
+- Cross-platform product development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Databases
+- MySQL
+- MongoDB
+- PostgreSQL
+- SQL and data modeling
 
-## Deploy on Vercel
+### Additional Skills
+- Machine learning fundamentals
+- AI-assisted software development
+- Project planning and management
+- Responsive UI development
+- Debugging and performance optimization
+- Git and GitHub
+- Client communication and requirements analysis
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Location:** Addis Ababa, Ethiopia
+- **Email:** bellapacx@gmail.com
+- **Portfolio:** [](https://bellapacx.github.io/Portfolio)
+- **GitHub:** [github.com/bellapacx3](https://github.com/bellapacx)
+
+I'm open to opportunities involving full-stack development, web applications, mobile development, and building practical software products.
+
+---
+
+Built with Next.js, TypeScript, Tailwind CSS, and a focus on clean, responsive user experiences.
