@@ -101,7 +101,7 @@ export default function Footer() {
               className="text-xs leading-5 md:text-center"
               style={{ color: "var(--muted)" }}
             >
-              © {year ?? "2026"} {developer.name}. Built with care.
+              © {year ?? "2026"} {"Belladev"}.We Build with care.
             </p>
 
             <div className="flex items-center justify-between gap-4 md:justify-end">
