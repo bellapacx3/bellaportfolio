@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, MessageCircle, Send, X } from "lucide-react";
 import { developer } from "@/lib/data";
-import WhatsAppButton from "@/components/layout/WhatsAppButton";
 
 function GitHubIcon() {
   return (
@@ -34,12 +33,36 @@ function LinkedInIcon() {
   );
 }
 
+function TelegramIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="19"
+      height="19"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M21.94 4.06c.17-1.1-.88-1.56-1.65-1.26L2.5 9.65c-1.2.48-1.18 1.15-.2 1.46l4.56 1.42 1.75 5.47c.21.6.1.84.73.84.48 0 .7-.22.97-.48l2.22-2.16 4.62 3.42c.85.47 1.47.23 1.68-.79L21.94 4.06ZM8.04 12.2l9.93-6.26c.49-.3.94-.14.57.2l-8.2 7.4-.32 3.47-1.98-4.81Z" />
+    </svg>
+  );
+}
+
 export default function Footer() {
   const [year, setYear] = useState<number | null>(null);
+  const [contactMenuOpen, setContactMenuOpen] = useState(false);
 
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);
+
+  const message =
+    "Hi! I found your portfolio and would like to discuss a website or mobile app project.";
+
+  const whatsappUrl = `https://wa.me/${developer.whatsapp}?text=${encodeURIComponent(message)}`;
+
+  // Replace with your actual Telegram username, without @.
+  const telegramUsername = "bpac12";
+  const telegramUrl = `https://t.me/${telegramUsername}`;
 
   return (
     <>
@@ -102,6 +125,16 @@ export default function Footer() {
                 >
                   <LinkedInIcon />
                 </a>
+
+                <a
+                  href={telegramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Telegram profile"
+                  className="flex h-10 w-10 items-center justify-center rounded-full transition hover:bg-[var(--surface)] hover:text-[#52C4B8]"
+                >
+                  <TelegramIcon />
+                </a>
               </div>
 
               <a
@@ -118,10 +151,88 @@ export default function Footer() {
       </footer>
 
       <div className="fixed bottom-4 right-4 z-40 sm:bottom-6 sm:right-6">
-        <WhatsAppButton className="flex min-h-11 items-center justify-center rounded-full px-4 py-3 text-sm shadow-[0_8px_35px_rgba(82,196,184,0.18)] transition hover:-translate-y-0.5 sm:px-5">
+        {contactMenuOpen && (
+          <>
+            <button
+              type="button"
+              aria-label="Close contact menu"
+              onClick={() => setContactMenuOpen(false)}
+              className="fixed inset-0 z-40 cursor-default"
+            />
+
+            <div
+              role="dialog"
+              aria-label="Choose a contact method"
+              className="absolute bottom-full right-0 z-50 mb-3 w-64 rounded-2xl border p-3 shadow-2xl"
+              style={{
+                background: "var(--surface)",
+                borderColor: "var(--border)",
+              }}
+            >
+              <div className="mb-2 flex items-center justify-between px-1 py-1">
+                <span className="text-sm font-semibold">Let&apos;s connect</span>
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setContactMenuOpen(false)}
+                  className="rounded-lg p-1 transition hover:bg-white/10"
+                >
+                  <X size={17} />
+                </button>
+              </div>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setContactMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-[#25D366]/10"
+              >
+                <MessageCircle size={20} className="text-[#25D366]" />
+                <span>
+                  <span className="block font-medium">WhatsApp</span>
+                  <span
+                    className="block text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Chat with me directly
+                  </span>
+                </span>
+              </a>
+
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setContactMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-[#229ED9]/10"
+              >
+                <Send size={20} className="text-[#229ED9]" />
+                <span>
+                  <span className="block font-medium">Telegram</span>
+                  <span
+                    className="block text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Message me on Telegram
+                  </span>
+                </span>
+              </a>
+            </div>
+          </>
+        )}
+
+        <button
+          type="button"
+          onClick={() => setContactMenuOpen((open) => !open)}
+          aria-expanded={contactMenuOpen}
+          aria-haspopup="dialog"
+          className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#52C4B8] px-4 py-3 text-sm font-semibold text-[#071411] shadow-[0_8px_35px_rgba(82,196,184,0.18)] transition hover:-translate-y-0.5 hover:bg-[#6ad7ca] sm:px-5"
+        >
+          {contactMenuOpen ? <X size={18} /> : <MessageCircle size={18} />}
           <span className="hidden sm:inline">Let&apos;s Talk</span>
-          <span className="sm:hidden">WhatsApp</span>
-        </WhatsAppButton>
+          <span className="sm:hidden">Contact</span>
+        </button>
       </div>
     </>
   );

@@ -1,131 +1,209 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowDown, ArrowRight } from "lucide-react";
-import CodeWindow from "@/components/ui/CodeWindow";
-import WhatsAppButton from "@/components/layout/WhatsAppButton";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { ArrowUpRight, Mail, MessageCircle, Send, X } from "lucide-react";
+import SectionHeading from "@/components/ui/SectionHeading";
+import { developer } from "@/lib/data";
 
-const specialties = ["Web Apps", "Mobile Apps", "Custom Software"];
+export default function Contact() {
+  const [contactMenuOpen, setContactMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-export default function Hero() {
-  return (
-    <section
-      id="home"
-      className="hero-glow relative isolate flex min-h-[calc(100svh-64px)] items-center overflow-hidden sm:min-h-[calc(100svh-76px)]"
-    >
-      <div className="grid-pattern pointer-events-none absolute inset-0 -z-10" />
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-      <div className="container-width grid w-full grid-cols-1 items-center gap-10 py-12 sm:gap-14 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-20 xl:gap-16 xl:py-24">
-        <motion.div
-          className="min-w-0"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65 }}
-        >
-          <div className="mb-5 flex items-center gap-3 sm:mb-7">
-            <span className="h-px w-7 shrink-0 bg-[#52C4B8] sm:w-8" />
-            <p className="code-font text-[10px] tracking-[0.14em] accent-text sm:text-xs sm:tracking-[0.16em]">
-              // FULL-STACK DEVELOPER
-            </p>
-          </div>
+  useEffect(() => {
+    if (!contactMenuOpen) return;
 
-          <h1 className="max-w-3xl text-[clamp(2.4rem,7.5vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] sm:text-6xl lg:text-6xl xl:text-7xl">
-            Building Digital{" "}
-            <span className="accent-text">Experiences</span>{" "}
-            That Matter
-          </h1>
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setContactMenuOpen(false);
+    };
 
-          <p
-            className="mt-5 max-w-xl text-sm leading-7 sm:mt-6 sm:text-base sm:leading-8 lg:text-lg"
-            style={{ color: "var(--muted)" }}
-          >
-            Crafting elegant solutions with modern technologies. I build
-            professional websites, mobile applications, and scalable software
-            that solve real-world problems.
-          </p>
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [contactMenuOpen]);
 
-          <div className="mt-7 flex flex-col gap-3 min-[420px]:flex-row sm:mt-8">
-            <a
-              href="#projects"
-              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#52C4B8] px-5 py-3 text-sm font-semibold text-[#071411] transition hover:-translate-y-0.5 hover:bg-[#6ad7ca] min-[420px]:w-auto sm:px-6"
+  const message =
+    "Hi! I found your portfolio and would like to discuss a website or mobile app project.";
+
+  const whatsappUrl = `https://wa.me/${developer.whatsapp}?text=${encodeURIComponent(message)}`;
+
+  // Replace with your actual Telegram username, without @.
+  const telegramUsername = "bpac12";
+  const telegramUrl = `https://t.me/${telegramUsername}`;
+
+  const contactMenu =
+    mounted && contactMenuOpen
+      ? createPortal(
+          <>
+            <button
+              type="button"
+              aria-label="Close contact menu"
+              onClick={() => setContactMenuOpen(false)}
+              className="fixed inset-0 z-[9998] cursor-default bg-black/30 backdrop-blur-[2px]"
+            />
+
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Choose a contact method"
+              className="fixed left-1/2 top-1/2 z-[9999] w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-2xl border p-4 shadow-2xl"
+              style={{
+                background: "var(--surface)",
+                borderColor: "var(--border)",
+                maxHeight: "calc(100dvh - 2rem)",
+                overflowY: "auto",
+              }}
             >
-              View Projects
-              <ArrowRight size={17} />
-            </a>
+              <div className="mb-3 flex items-center justify-between gap-3 px-1 py-1">
+                <div>
+                  <h3 className="text-base font-semibold">Let&apos;s connect</h3>
+                  <p
+                    className="mt-1 text-sm"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Choose your preferred app.
+                  </p>
+                </div>
 
-            <WhatsAppButton className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-[var(--border)] bg-transparent px-5 py-3 text-sm font-semibold text-[var(--foreground)] transition hover:border-[#52C4B8] hover:bg-[rgba(82,196,184,0.08)] min-[420px]:w-auto sm:px-6">
-              Get in Touch
-            </WhatsAppButton>
-          </div>
-
-          <div
-            className="mt-8 border-t pt-5 sm:mt-10 sm:pt-6"
-            style={{ borderColor: "var(--border)" }}
-          >
-            <p
-              className="mb-4 text-[10px] tracking-[0.14em] sm:mb-3 sm:text-xs"
-              style={{ color: "var(--muted)" }}
-            >
-              SPECIALIZING IN
-            </p>
-
-            <div className="flex flex-wrap gap-x-5 gap-y-3 sm:gap-x-7">
-              {specialties.map((item) => (
-                <span
-                  key={item}
-                  className="text-xs font-medium sm:text-sm"
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setContactMenuOpen(false)}
+                  className="rounded-lg p-2 transition hover:bg-white/10"
                 >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+                  <X size={18} />
+                </button>
+              </div>
 
-        <motion.div
-          className="relative mx-auto w-full min-w-0 max-w-2xl lg:max-w-none"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setContactMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-4 text-sm transition hover:bg-[#25D366]/10"
+              >
+                <MessageCircle
+                  size={22}
+                  className="shrink-0 text-[#25D366]"
+                />
+                <span>
+                  <span className="block font-medium">WhatsApp</span>
+                  <span
+                    className="mt-1 block text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Chat with me directly
+                  </span>
+                </span>
+                <ArrowUpRight size={16} className="ml-auto shrink-0" />
+              </a>
+
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setContactMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-4 text-sm transition hover:bg-[#229ED9]/10"
+              >
+                <Send size={22} className="shrink-0 text-[#229ED9]" />
+                <span>
+                  <span className="block font-medium">Telegram</span>
+                  <span
+                    className="mt-1 block text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    Message me on Telegram
+                  </span>
+                </span>
+                <ArrowUpRight size={16} className="ml-auto shrink-0" />
+              </a>
+            </div>
+          </>,
+          document.body
+        )
+      : null;
+
+  return (
+    <section id="contact" className="section-padding section-divider">
+      <div className="container-width">
+        <div
+          className="relative overflow-hidden rounded-3xl border p-7 sm:p-12 lg:p-16"
+          style={{
+            background: "var(--surface)",
+            borderColor: "var(--border)",
+          }}
         >
           <div
-            className="pointer-events-none absolute -inset-3 rounded-3xl opacity-50 blur-2xl sm:-inset-5 sm:opacity-60 sm:blur-3xl"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(82,196,184,0.12), transparent 70%)",
-            }}
+            className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full blur-3xl"
+            style={{ background: "rgba(82,196,184,0.10)" }}
           />
 
-          <div className="relative min-w-0">
-            <CodeWindow />
-          </div>
+          <div className="relative z-10 grid items-center gap-10 lg:grid-cols-[1fr_auto]">
+            <div>
+              <SectionHeading
+                eyebrow="Get in touch"
+                title={
+                  <>
+                    Have an idea?
+                    <br />
+                    <span className="accent-text">Let&apos;s build it.</span>
+                  </>
+                }
+                description="Tell me about your business, website, or app idea. Let's discuss your requirements and find the right way to bring it to life."
+              />
 
-          <div
-            className="absolute -bottom-4 right-2 hidden max-w-[calc(100%-1rem)] items-center gap-2 rounded-xl border px-4 py-3 shadow-xl sm:flex lg:-right-2"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-            }}
-          >
-            <span className="h-2 w-2 shrink-0 rounded-full bg-[#52C4B8]" />
-            <span
-              className="text-xs"
-              style={{ color: "var(--muted)" }}
-            >
-              Turning ideas into reality
-            </span>
-          </div>
-        </motion.div>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <a
+                  href={`mailto:${developer.email}`}
+                  className="inline-flex items-center gap-2 text-sm transition hover:text-[#52C4B8]"
+                >
+                  <Mail size={17} />
+                  {developer.email}
+                  <ArrowUpRight size={14} />
+                </a>
 
-        <a
-          href="#projects"
-          className="hidden items-center justify-center gap-2 pt-1 text-xs tracking-widest transition-colors hover:text-[#52C4B8] lg:inline-flex"
-          style={{ color: "var(--muted)" }}
-        >
-          SCROLL TO EXPLORE
-          <ArrowDown size={14} />
-        </a>
+                <span
+                  className="hidden h-4 w-px sm:block"
+                  style={{ background: "var(--border)" }}
+                />
+
+                <span className="text-sm" style={{ color: "var(--muted)" }}>
+                  {developer.location}
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                onClick={() => setContactMenuOpen((open) => !open)}
+                aria-expanded={contactMenuOpen}
+                aria-haspopup="dialog"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#52C4B8] px-5 py-3.5 text-sm font-semibold text-[#071411] transition hover:-translate-y-0.5 hover:bg-[#6ad7ca] sm:w-auto"
+              >
+                {contactMenuOpen ? (
+                  <X size={18} />
+                ) : (
+                  <MessageCircle size={18} />
+                )}
+                Let&apos;s Talk
+              </button>
+
+              <p
+                className="mt-3 text-center text-xs sm:text-left"
+                style={{ color: "var(--muted)" }}
+              >
+                Usually the quickest way to reach me.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {contactMenu}
     </section>
   );
 }

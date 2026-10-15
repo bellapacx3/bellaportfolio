@@ -24,14 +24,7 @@ export default function Projects() {
           ))}
         </div>
 
-        <p
-          className="mt-7 text-xs leading-6"
-          style={{ color: "var(--muted)" }}
-        >
-          Note: These are illustrative portfolio concepts, not claims of
-          completed client deployments. Replace them with real work as it
-          becomes available.
-        </p>
+       
       </div>
     </section>
   );
